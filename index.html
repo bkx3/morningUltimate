@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morning Ultimate Palo Alto</title>
+    <title>Palo Alto Sunrise Ultimate</title>
     <meta
       name="description"
-      content="Morning Ultimate in Palo Alto: Monday, Wednesday, and Friday from 7:00am to 8:00am, rain or shine."
+      content="Palo Alto morning Ultimate meets every Monday, Wednesday, and Friday at 7:00am."
     >
-    <meta property="og:title" content="Morning Ultimate Palo Alto">
+    <meta property="og:title" content="Palo Alto Sunrise Ultimate">
     <meta
       property="og:description"
-      content="Beginner-friendly morning Ultimate every Monday, Wednesday, and Friday from 7:00am to 8:00am, rain or shine."
+      content="Palo Alto morning Ultimate meets every Monday, Wednesday, and Friday from 7am to 8am."
     >
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://morningultimate.com">
+    <meta property="og:url" content="https://morningultimate.com/">
     <link rel="canonical" href="https://morningultimate.com/">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SportsEvent",
-        "name": "Palo Alto Morning Ultimate",
-        "description": "Beginner-friendly morning Ultimate pickup game in Palo Alto every Monday, Wednesday, and Friday from 7:00am to 8:00am, rain or shine.",
+        "name": "Palo Alto Sunrise Ultimate",
+        "description": "Palo Alto morning Ultimate pickup game at Mayfield Soccer Complex every Monday, Wednesday, and Friday from 7am to 8am, rain or shine.",
         "sport": "Ultimate Frisbee",
         "url": "https://morningultimate.com/",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
@@ -32,7 +32,7 @@
           "name": "Mayfield Soccer Complex",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Page Mill Road and El Camino Real",
+            "streetAddress": "El Camino Real and Page Mill Road",
             "addressLocality": "Palo Alto",
             "addressRegion": "CA",
             "addressCountry": "US"
@@ -57,7 +57,7 @@
         },
         "organizer": {
           "@type": "Organization",
-          "name": "Palo Alto Ultimate",
+          "name": "Palo Alto Sunrise Ultimate",
           "email": "jpickupultimate@frzb.org"
         },
         "sameAs": "https://pickupultimate.com/games/paloaltoultimate"
@@ -65,26 +65,18 @@
     </script>
     <style>
       :root {
-        color-scheme: light dark;
-        /* Option A: Soft Blush #f1dede, Lilac Ash #bbacc1, Rosy Granite #80727b, Grey Olive #909580, Ebony #545643 */
-        --space-indigo: #1f2041;
-        --vintage-grape: #4b3f72;
-        --jungle-teal: #417b5a;
+        color-scheme: dark;
+        --ink: #fffaf2;
+        --paper: #090912;
+        --hot: #f8ff4f;
+        --red: #ff4e34;
+        --blue: #77e4ff;
+        --indigo: #1f2041;
+        --grape: #4b3f72;
+        --teal: #417b5a;
         --bone: #d0ceba;
-        --powder-petal: #e9d2c0;
-        --ink: #1f2041;
-        --muted: #4b3f72;
-        --line: rgba(75, 63, 114, 0.28);
-        --paper: var(--powder-petal);
-        --panel-bg: rgba(255, 255, 255, 0.74);
-        --button-bg: var(--bone);
-        --button-fg: var(--space-indigo);
-        --mailing-bg: var(--space-indigo);
-        --hero-gradient-start: rgba(31, 32, 65, 0.93);
-        --hero-gradient-end: rgba(65, 123, 90, 0.78);
-        --hero-fade-start: rgba(233, 210, 192, 0);
-        --white: #ffffff;
-        --shadow: 0 20px 60px rgba(31, 32, 65, 0.2);
+        --petal: #e9d2c0;
+        --shadow: rgba(0, 0, 0, 0.72);
       }
 
       * {
@@ -92,304 +84,254 @@
       }
 
       html {
-        scroll-behavior: smooth;
+        min-height: 100%;
       }
 
       body {
+        min-height: 100%;
         margin: 0;
         background: var(--paper);
         color: var(--ink);
         font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        line-height: 1.5;
       }
 
-      a {
-        color: inherit;
+      a:focus-visible {
+        outline: 4px solid var(--blue);
+        outline-offset: 5px;
       }
 
-      a:focus-visible,
-      button:focus-visible {
-        outline: 3px solid var(--jungle-teal);
-        outline-offset: 4px;
-      }
-
-      .skip-link {
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        z-index: 10;
-        padding: 10px 14px;
-        border-radius: 6px;
-        background: var(--button-bg);
-        color: var(--button-fg);
-        font-weight: 760;
-        text-decoration: none;
-        transform: translateY(calc(-100% - 24px));
-        transition: transform 160ms ease;
-      }
-
-      .skip-link:focus {
-        transform: translateY(0);
-      }
-
-      .site-shell {
-        min-height: 100vh;
-      }
-
-      .hero {
+      .page {
         position: relative;
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
         overflow: hidden;
-        background:
-          linear-gradient(150deg, var(--hero-gradient-start), var(--hero-gradient-end)),
-          url("assets/hero-field-option.png");
+        padding: 28px;
+        isolation: isolate;
+      }
+
+      .page::before {
+        position: absolute;
+        inset: 0;
+        z-index: -3;
+        background-image: url("assets/hero-field-option.png");
         background-position: center;
         background-size: cover;
-        color: var(--white);
+        content: "";
+        filter: saturate(1.15) contrast(1.15);
       }
 
-      .hero::after {
+      .page::after {
         position: absolute;
-        inset: auto 0 0;
-        height: 28%;
-        background: linear-gradient(180deg, var(--hero-fade-start), var(--paper));
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(circle at 78% 48%, rgba(255, 78, 52, 0.18), transparent 26%),
+          linear-gradient(90deg, rgba(9, 9, 18, 0.96), rgba(9, 9, 18, 0.74) 46%, rgba(9, 9, 18, 0.52)),
+          linear-gradient(180deg, rgba(9, 9, 18, 0.2), rgba(9, 9, 18, 0.82));
         content: "";
+      }
+
+      .grain {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 75%);
         pointer-events: none;
       }
 
-      .hero-content,
       main {
-        width: min(1120px, calc(100% - 32px));
-        margin: 0 auto;
-      }
-
-      .button {
-        display: inline-flex;
-        min-height: 44px;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        border-radius: 6px;
-        font-weight: 760;
-        text-decoration: none;
-      }
-
-      .button {
-        padding: 0 16px;
-        border: 1px solid transparent;
-        background: var(--button-bg);
-        color: var(--button-fg);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
-      }
-
-      .button.secondary {
-        border-color: rgba(255, 255, 255, 0.42);
-        background: rgba(255, 255, 255, 0.12);
-        color: var(--white);
-        box-shadow: none;
-      }
-
-      .hero-content {
-        position: relative;
-        z-index: 1;
-        padding: 72px 0 138px;
-      }
-
-      .eyebrow {
-        margin: 0 0 12px;
-        color: rgba(255, 255, 255, 0.82);
-        font-size: 0.9rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        width: 100%;
+        min-width: 0;
+        max-width: 1180px;
+        text-align: center;
       }
 
       h1 {
-        max-width: 850px;
-        margin: 0;
-        font-size: clamp(3rem, 8vw, 6.5rem);
+        width: 100%;
+        min-width: 0;
+        max-width: 1150px;
+        margin: 0 auto;
+        color: var(--ink);
+        font-weight: 950;
+        letter-spacing: 0;
         line-height: 0.94;
-        letter-spacing: 0;
-      }
-
-      .hero-copy {
-        max-width: 650px;
-        margin: 24px 0 0;
-        color: rgba(255, 255, 255, 0.88);
-        font-size: clamp(1.08rem, 2vw, 1.35rem);
-      }
-
-      .hero-copy + .hero-copy {
-        margin-top: 12px;
-      }
-
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 30px;
-      }
-
-      .button svg {
-        width: 20px;
-        height: 20px;
-        flex: 0 0 auto;
-      }
-
-      main {
-        position: relative;
-        z-index: 2;
-        display: grid;
-        gap: 28px;
-        margin-top: -76px;
-        padding-bottom: 48px;
-      }
-
-      .panel {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel-bg);
-        box-shadow: var(--shadow);
-      }
-
-      h2 {
-        margin: 0;
-        font-size: clamp(1.55rem, 3vw, 2.2rem);
-        line-height: 1.08;
-        letter-spacing: 0;
-      }
-
-      .muted {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      .detail-list {
-        display: grid;
-        gap: 14px;
-        margin: 0;
-      }
-
-      .detail-list div {
-        display: grid;
-        gap: 2px;
-      }
-
-      .detail-list dt {
-        color: var(--muted);
-        font-size: 0.78rem;
-        font-weight: 820;
-        letter-spacing: 0.08em;
+        text-shadow: 0 10px 40px var(--shadow);
         text-transform: uppercase;
       }
 
-      .detail-list dd {
-        margin: 0;
-        font-size: 1.05rem;
-        font-weight: 740;
-      }
-
-      .info-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .info-card {
-        padding: 24px;
-      }
-
-      .info-card h2 {
-        margin: 0 0 10px;
-        font-size: 1.15rem;
-      }
-
-      .info-card p {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      .info-card p + p {
-        margin-top: 12px;
-      }
-
-      .group-photo {
-        overflow: hidden;
-      }
-
-      .group-photo img {
+      .headline-line {
         display: block;
         width: 100%;
-        height: clamp(320px, 40vw, 500px);
-        object-fit: cover;
-        object-position: center 78%;
-      }
-
-      .photo-caption {
-        margin: 0;
-        padding: 14px 18px;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .mailing {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 20px;
-        align-items: center;
-        padding: 28px;
-        background: var(--mailing-bg);
-        color: var(--white);
-      }
-
-      .mailing p {
-        margin: 8px 0 0;
-        color: rgba(255, 255, 255, 0.78);
-      }
-
-      .mailing .button {
-        box-shadow: none;
+        min-width: 0;
+        overflow: hidden;
+        text-align: left;
         white-space: nowrap;
       }
 
-      @media (max-width: 860px) {
-        .mailing {
-          grid-template-columns: 1fr;
-        }
+      h2 {
+        max-width: 860px;
+        margin: 34px auto 0;
+        color: rgba(255, 250, 242, 0.9);
+        font-size: clamp(1.15rem, 3vw, 2.4rem);
+        font-weight: 760;
+        letter-spacing: 0;
+        line-height: 1.12;
+        text-wrap: balance;
+      }
 
-        .hero-content {
-          padding-top: 42px;
-        }
+      .location-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 18px;
+        color: rgba(255, 250, 242, 0.8);
+        font-size: clamp(0.95rem, 2vw, 1.35rem);
+        font-weight: 400;
+        line-height: 1.2;
+        text-decoration: none;
+        text-wrap: balance;
+      }
 
-        .info-grid {
-          grid-template-columns: 1fr;
-        }
+      .location-link svg {
+        width: 1.05em;
+        height: 1.05em;
+        flex: 0 0 auto;
+      }
 
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 38px;
+      }
+
+      .button {
+        position: relative;
+        display: inline-flex;
+        min-height: 54px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        border: 2px solid var(--ink);
+        border-radius: 0;
+        background: var(--ink);
+        color: var(--paper);
+        font-size: 1rem;
+        font-weight: 900;
+        text-decoration: none;
+        text-transform: uppercase;
+        --button-shadow: var(--red);
+        box-shadow: 10px 10px 0 var(--button-shadow);
+      }
+
+      .button:nth-child(2) {
+        background: var(--bone);
+        border-color: var(--bone);
+        color: var(--indigo);
+      }
+
+      .button:nth-child(3) {
+        background: var(--petal);
+        border-color: var(--petal);
+        color: var(--indigo);
+      }
+
+      .button::after {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: var(--button-shadow);
+        content: "";
+        transform: translate(10px, 10px);
       }
 
       @media (prefers-color-scheme: dark) {
+        .button {
+          background: var(--indigo);
+          border-color: var(--bone);
+          color: var(--bone);
+          --button-shadow: rgba(208, 206, 186, 0.72);
+        }
+
+        .button:nth-child(2) {
+          background: var(--grape);
+          border-color: var(--bone);
+          color: var(--bone);
+        }
+
+        .button:nth-child(3) {
+          background: var(--teal);
+          border-color: var(--bone);
+          color: var(--bone);
+        }
+      }
+
+      @media (prefers-color-scheme: light) {
         :root {
-          --ink: #f4efe7;
-          --muted: var(--bone);
-          --line: rgba(208, 206, 186, 0.28);
-          --paper: var(--space-indigo);
-          --panel-bg: rgba(208, 206, 186, 0.1);
-          --button-bg: var(--bone);
-          --button-fg: var(--space-indigo);
-          --mailing-bg: rgba(75, 63, 114, 0.78);
-          --hero-gradient-start: rgba(31, 32, 65, 0.96);
-          --hero-gradient-end: rgba(75, 63, 114, 0.82);
-          --hero-fade-start: rgba(31, 32, 65, 0);
-          --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
+          color-scheme: light;
+          --ink: #090912;
+          --paper: #fffaf2;
+          --shadow: rgba(255, 250, 242, 0.3);
+        }
+
+        .page::after {
+          background:
+            radial-gradient(circle at 78% 48%, rgba(255, 78, 52, 0.24), transparent 26%),
+            linear-gradient(90deg, rgba(255, 250, 242, 0.92), rgba(255, 250, 242, 0.72) 46%, rgba(255, 250, 242, 0.42)),
+            linear-gradient(180deg, rgba(255, 250, 242, 0.22), rgba(255, 250, 242, 0.86));
+        }
+
+        h2 {
+          color: rgba(9, 9, 18, 0.84);
+        }
+
+        .location-link {
+          color: rgba(9, 9, 18, 0.8);
+        }
+
+        .button {
+          border-color: var(--paper);
+        }
+
+        .button:nth-child(3) {
+          border-color: var(--ink);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          align-items: start;
+          padding: 30px 16px;
+        }
+
+        main {
+          padding-top: 8vh;
+        }
+
+        h1 {
+          line-height: 0.98;
+        }
+
+        .actions {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .button {
+          width: 100%;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-
         *,
         *::before,
         *::after {
@@ -398,114 +340,33 @@
           animation-iteration-count: 1 !important;
         }
       }
-
-      @media (max-width: 560px) {
-        .hero-content,
-        main {
-          width: min(100% - 24px, 1120px);
-        }
-
-        .hero-content {
-          padding-top: 42px;
-          padding-bottom: 118px;
-        }
-
-        h1 {
-          font-size: clamp(2.65rem, 16vw, 4.4rem);
-        }
-
-        .hero-actions .button {
-          width: 100%;
-        }
-
-        .group-photo img {
-          height: auto;
-          object-fit: contain;
-        }
-
-        .info-card,
-        .mailing {
-          padding: 20px;
-        }
-      }
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#content">Skip to content</a>
-    <div class="site-shell">
-      <section class="hero" aria-labelledby="next-game-title">
-        <div class="hero-content">
-          <div>
-            <p class="eyebrow">Palo Alto Sunrise Ultimate</p>
-            <h1 id="next-game-title">
-              Next game on <span id="nextGame">Monday morning</span>, <span id="weatherLine" aria-live="polite">rain or shine</span>
-            </h1>
-            <p class="hero-copy">Since 2001, we've been playing together on weekday mornings. Our pickup game continues as beginner-friendly, year-round Ultimate on brand new turf.</p>
-            <p class="hero-copy">
-              Join us at Mayfield Soccer Complex on El Camino Real and Page Mill Road, every Monday, Wednesday, and Friday from 7:00am to 8:00am.
-            </p>
-            <div class="hero-actions">
-              <a class="button directions-link" href="https://maps.apple.com/?ll=37.423093,-122.143545&q=Morning%20Ultimate%20Palo%20Alto">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 21s7-5.2 7-12A7 7 0 1 0 5 9c0 6.8 7 12 7 12Z" stroke="currentColor" stroke-width="2" />
-                  <circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="2" />
-                </svg>
-                <span>Open in Apple Maps</span>
-              </a>
-              <a class="button secondary" href="https://pickupultimate.com/games/paloaltoultimate">
-                PickupUltimate listing
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <main id="content">
-        <section class="info-grid" id="details" aria-label="New player details">
-          <article class="panel info-card">
-            <h2>Experience Level</h2>
-            <p>
-              A friendly pickup game with mixed experience levels. New players are welcome, and stronger players keep the game fun.
-            </p>
-            <p>
-              We do not use subs! Everybody plays for the whole game, even if teams are uneven or if we have more than fourteen players.
-            </p>
-          </article>
-          <article class="panel info-card">
-            <h2>What to bring</h2>
-            <p>
-              Water, a light shirt, and a dark shirt. Our turf is brand new, so turf shoes will work as well as cleats with small or no studs. We have a few extra discs, but feel free to bring your own.
-            </p>
-          </article>
-          <article class="panel info-card">
-            <h2>What to expect</h2>
-            <p>
-              Our game runs on a pretty tight schedule, so folks can leave at 8 and get to their all-hands meetings. Arrive at 7:00 and be ready to play by ~7:10. Dropped pulls are okay. It's very early, after all.
-            </p>
-          </article>
-        </section>
-
-        <figure class="panel group-photo">
-          <img
-            src="assets/group-photo.jpeg"
-            alt="Morning Ultimate players gathered on the turf after a game"
-          >
-          <figcaption class="photo-caption">Some of the morning crew at Mayfield Soccer Complex.</figcaption>
-        </figure>
-
-        <section class="panel mailing" aria-labelledby="mailing-title">
-          <div>
-            <h2 id="mailing-title">Mailing List</h2>
-            <p>
-              Sign up for the email group, if you're into that kind of thing:
-            </p>
-          </div>
-          <a class="button" href="mailto:jpickupultimate@frzb.org?subject=Morning%20Ultimate%20mailing%20list&body=Hi%20Barrus%2C%0A%0APlease%20add%20me%20to%20the%20Palo%20Alto%20Ultimate%20email%20group.%0A%0AThanks!">
-            Email Barrus
+    <div class="page">
+      <div class="grain" aria-hidden="true"></div>
+      <main>
+        <h1>
+          <span class="headline-line">Game On:</span>
+          <span class="headline-line" id="nextGame">Monday, June 22</span>
+          <span class="headline-line" id="weatherLine" aria-live="polite">rain or shine</span>
+        </h1>
+        <h2>Palo Alto morning ultimate meets every Monday, Wednesday and Friday from 7am to 8am.</h2>
+        <h3>
+          <a class="location-link directions-link" href="https://maps.apple.com/?ll=37.423093,-122.143545&q=Morning%20Ultimate%20Palo%20Alto">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s7-5.2 7-12A7 7 0 1 0 5 9c0 6.8 7 12 7 12Z" stroke="currentColor" stroke-width="2" />
+              <circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <span>Mayfield Soccer Complex @ El Camino Real and Page Mill rd</span>
           </a>
-        </section>
+        </h3>
+        <nav class="actions" aria-label="Primary">
+          <a class="button directions-link" data-directions-label="Get directions" href="https://maps.apple.com/?ll=37.423093,-122.143545&q=Morning%20Ultimate%20Palo%20Alto">Get directions</a>
+          <a class="button" href="https://pickupultimate.com/games/paloaltoultimate">PickupUltimate</a>
+          <a class="button" href="mailto:jpickupultimate@frzb.org?subject=Morning%20Ultimate%20mailing%20list&body=Hi%20Barrus%2C%0A%0APlease%20add%20me%20to%20the%20Palo%20Alto%20Ultimate%20email%20group.%0A%0AThanks!">Mailing List</a>
+        </nav>
       </main>
-
     </div>
 
     <script>
@@ -529,8 +390,31 @@
       }
 
       const nextGame = nextGameDate();
-
       document.getElementById("nextGame").textContent = formatter.format(nextGame);
+
+      function fitHeadlineLines() {
+        const lines = document.querySelectorAll(".headline-line");
+        const minSize = 20;
+        const maxSize = Math.min(window.innerWidth * 0.18, 154);
+
+        lines.forEach((line) => {
+          line.style.fontSize = `${maxSize}px`;
+          line.style.letterSpacing = "0";
+          let size = maxSize;
+
+          while (line.scrollWidth > line.clientWidth && size > minSize) {
+            size -= 1;
+            line.style.fontSize = `${size}px`;
+          }
+
+          const remainingWidth = Math.max(line.clientWidth - line.scrollWidth, 0);
+          const characterGaps = Math.max(line.textContent.trim().length - 1, 1);
+          line.style.letterSpacing = `${remainingWidth / characterGaps}px`;
+        });
+      }
+
+      window.addEventListener("resize", fitHeadlineLines);
+      fitHeadlineLines();
 
       function localDateKey(date) {
         const year = date.getFullYear();
@@ -606,8 +490,10 @@
           if (!response.ok) throw new Error("Forecast unavailable");
           const forecast = await response.json();
           weatherLine.textContent = chooseWeatherLine(forecast.hourly);
+          fitHeadlineLines();
         } catch {
           weatherLine.textContent = "rain or shine";
+          fitHeadlineLines();
         }
       }
 
@@ -623,14 +509,16 @@
       }
 
       const directions = prefersAppleMaps()
-        ? { url: appleMapsUrl, label: "Open in Apple Maps" }
-        : { url: googleMapsUrl, label: "Open in Google Maps" };
+        ? { url: appleMapsUrl, label: "Get directions" }
+        : { url: googleMapsUrl, label: "Get directions" };
 
       document.querySelectorAll(".directions-link").forEach((link) => {
         link.href = directions.url;
-        link.setAttribute("aria-label", directions.label);
-        const label = link.querySelector("span");
-        if (label) label.textContent = directions.label;
+        const label = link.dataset.directionsLabel;
+        if (label) {
+          link.setAttribute("aria-label", label);
+          link.textContent = label;
+        }
       });
     </script>
   </body>

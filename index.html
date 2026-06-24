@@ -116,7 +116,7 @@
         position: absolute;
         inset: 0;
         z-index: -3;
-        background-image: url("assets/hero-field-option.png");
+        background-image: url("assets/hero-background.jpg");
         background-position: center;
         background-size: cover;
         content: "";
@@ -186,8 +186,16 @@
         text-wrap: balance;
       }
 
+      h3 {
+        margin: 0;
+        font-size: inherit;
+        font-weight: inherit;
+      }
+
       .location-link {
-        display: inline-flex;
+        display: inline-grid;
+        max-width: min(100%, 720px);
+        grid-template-columns: auto minmax(0, max-content);
         align-items: center;
         justify-content: center;
         gap: 10px;
@@ -321,6 +329,16 @@
           line-height: 0.98;
         }
 
+        .location-link {
+          max-width: 340px;
+          grid-template-columns: auto 1fr;
+          text-align: left;
+        }
+
+        .location-link svg {
+          margin-top: 0.08em;
+        }
+
         .actions {
           display: grid;
           grid-template-columns: 1fr;
@@ -375,22 +393,76 @@
         weekday: "long",
         month: "long",
         day: "numeric",
+        timeZone: "UTC",
       });
 
+      function pacificNow(date = new Date()) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Los_Angeles",
+          weekday: "short",
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          hourCycle: "h23",
+        }).formatToParts(date);
+        const get = (type) => parts.find((part) => part.type === type).value;
+
+        return {
+          year: Number(get("year")),
+          month: Number(get("month")),
+          day: Number(get("day")),
+          hour: Number(get("hour")),
+          minute: Number(get("minute")),
+        };
+      }
+
+      function dateKeyFromUtcDate(date) {
+        const year = date.getUTCFullYear();
+        const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+        const day = String(date.getUTCDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function calendarDateFromPacific(parts, offsetDays = 0) {
+        const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day + offsetDays, 12));
+        return {
+          date,
+          dayOfWeek: date.getUTCDay(),
+          dateKey: dateKeyFromUtcDate(date),
+          label: formatter.format(date),
+        };
+      }
+
+      function currentGameState(now = new Date()) {
+        const pacific = pacificNow(now);
+        const today = calendarDateFromPacific(pacific);
+        const isGameDay = gameDays.includes(today.dayOfWeek);
+        const isDuringGame = isGameDay && pacific.hour === 7;
+        return { isDuringGame, pacific };
+      }
+
       function nextGameDate(now = new Date()) {
+        const { pacific } = currentGameState(now);
         for (let offset = 0; offset <= 7; offset += 1) {
-          const candidate = new Date(now);
-          candidate.setDate(now.getDate() + offset);
-          candidate.setHours(7, 0, 0, 0);
-          if (gameDays.includes(candidate.getDay()) && candidate >= now) {
+          const candidate = calendarDateFromPacific(pacific, offset);
+          if (offset === 0 && pacific.hour >= 8) continue;
+          if (gameDays.includes(candidate.dayOfWeek)) {
             return candidate;
           }
         }
-        return now;
+        return calendarDateFromPacific(pacific);
       }
 
+      const gameState = currentGameState();
       const nextGame = nextGameDate();
-      document.getElementById("nextGame").textContent = formatter.format(nextGame);
+      document.getElementById("nextGame").textContent = gameState.isDuringGame
+        ? "WE'RE PLAYING RIGHT NOW"
+        : nextGame.label;
+      document.getElementById("weatherLine").textContent = gameState.isDuringGame
+        ? "AND IT'S GREAT"
+        : "rain or shine";
 
       function fitHeadlineLines() {
         const lines = document.querySelectorAll(".headline-line");
@@ -416,15 +488,8 @@
       window.addEventListener("resize", fitHeadlineLines);
       fitHeadlineLines();
 
-      function localDateKey(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      }
-
       function gameHourForecast(hourly, hour) {
-        const hourText = `${localDateKey(nextGame)}T${String(hour).padStart(2, "0")}:00`;
+        const hourText = `${nextGame.dateKey}T${String(hour).padStart(2, "0")}:00`;
         const index = hourly.time.indexOf(hourText);
         if (index < 0) return null;
         return {
@@ -474,6 +539,11 @@
       }
 
       async function updateWeatherLine() {
+        if (gameState.isDuringGame) {
+          fitHeadlineLines();
+          return;
+        }
+
         const weatherLine = document.getElementById("weatherLine");
         const params = new URLSearchParams({
           latitude: "37.423093",

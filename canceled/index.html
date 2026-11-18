@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-canceled="true">
   <head>
     <meta charset="utf-8">
     <base href="/">
@@ -77,6 +77,10 @@
         background-size: cover;
         content: "";
         filter: saturate(1.15) contrast(1.15);
+      }
+
+      html[data-canceled="true"] .page::before {
+        filter: grayscale(1) contrast(1.15);
       }
 
       .page::after {
@@ -321,11 +325,11 @@
       <div class="grain" aria-hidden="true"></div>
       <main>
         <h1>
-          <span class="headline-line" id="gameStatus" aria-live="polite">Game cancelled:</span>
+          <span class="headline-line" id="gameStatus" aria-live="polite" style="color: #ff6700">Game Canceled</span>
           <span class="headline-line" id="nextGame">Monday, June 22</span>
           <span class="headline-line" id="weatherLine" aria-live="polite">rain or shine</span>
         </h1>
-        <h2>Palo Alto morning ultimate meets every Monday, Wednesday and Friday from 7am to 8am.</h2>
+        <h2 id="gameDescription">Palo Alto morning ultimate usually meets every Monday, Wednesday and Friday from 7am to 8am.</h2>
         <h3>
           <a class="location-link directions-link" href="https://maps.apple.com/?ll=37.423093,-122.143545&q=Morning%20Ultimate%20Palo%20Alto">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -521,13 +525,19 @@
       async function updateWeatherLine() {
         const cancellation = await activeCancellation();
         if (cancellation) {
-          document.getElementById("gameStatus").textContent = "Game cancelled:";
+          document.documentElement.dataset.canceled = "true";
+          document.getElementById("gameStatus").textContent = "Game Canceled";
+          document.getElementById("gameStatus").style.color = "#ff6700";
+          document.getElementById("gameDescription").textContent = "Palo Alto morning ultimate usually meets every Monday, Wednesday and Friday from 7am to 8am.";
           document.getElementById("nextGame").textContent = nextGame.label;
           setWeatherLine(cancellation.reason);
           return;
         }
 
+        document.documentElement.dataset.canceled = "false";
         document.getElementById("gameStatus").textContent = "Game On:";
+        document.getElementById("gameStatus").style.color = "";
+        document.getElementById("gameDescription").textContent = "Palo Alto morning ultimate meets every Monday, Wednesday and Friday from 7am to 8am.";
         const message = await activeWeatherMessage();
 
         if (message) {

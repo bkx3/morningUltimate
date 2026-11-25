@@ -389,6 +389,7 @@
 
     <script>
       const gameDays = [1, 3, 5];
+      const extraGameDates = ["2026-11-26"]; // Thanksgiving pickup, usual time and field.
       const formatter = new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         month: "long",
@@ -438,7 +439,7 @@
       function currentGameState(now = new Date()) {
         const pacific = pacificNow(now);
         const today = calendarDateFromPacific(pacific);
-        const isGameDay = gameDays.includes(today.dayOfWeek);
+        const isGameDay = gameDays.includes(today.dayOfWeek) || extraGameDates.includes(today.dateKey);
         const isDuringGame = isGameDay && pacific.hour === 7;
         return { isDuringGame, pacific };
       }
@@ -448,7 +449,7 @@
         for (let offset = 0; offset <= 7; offset += 1) {
           const candidate = calendarDateFromPacific(pacific, offset);
           if (offset === 0 && pacific.hour >= 8) continue;
-          if (gameDays.includes(candidate.dayOfWeek)) {
+          if (gameDays.includes(candidate.dayOfWeek) || extraGameDates.includes(candidate.dateKey)) {
             return candidate;
           }
         }

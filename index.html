@@ -458,19 +458,13 @@
       }
 
       const weatherMessagePath = "weather-message.json";
-      const gameState = currentGameState();
-      const nextGame = nextGameDate();
-      const fallbackWeatherLine = gameState.isDuringGame ? "AND IT'S GREAT" : "rain or shine";
+      let renderedGame = "";
+      let gameRevision = 0;
 
       function setWeatherLine(text) {
         document.getElementById("weatherLine").textContent = text;
         fitHeadlineLines();
       }
-
-      document.getElementById("nextGame").textContent = gameState.isDuringGame
-        ? "WE'RE PLAYING RIGHT NOW"
-        : nextGame.label;
-      document.getElementById("weatherLine").textContent = fallbackWeatherLine;
 
       function fitHeadlineLines() {
         const lines = document.querySelectorAll(".headline-line");
@@ -494,10 +488,8 @@
       }
 
       window.addEventListener("resize", fitHeadlineLines);
-      fitHeadlineLines();
-
-      function gameHourForecast(hourly, hour) {
-        const hourText = `${nextGame.dateKey}T${String(hour).padStart(2, "0")}:00`;
+      function gameHourForecast(hourly, dateKey, hour) {
+        const hourText = `${dateKey}T${String(hour).padStart(2, "0")}:00`;
         const index = hourly.time.indexOf(hourText);
         if (index < 0) return null;
         return {
@@ -508,9 +500,9 @@
         };
       }
 
-      function chooseWeatherLine(hourly) {
-        const seven = gameHourForecast(hourly, 7);
-        const eight = gameHourForecast(hourly, 8);
+      function chooseWeatherLine(hourly, dateKey) {
+        const seven = gameHourForecast(hourly, dateKey, 7);
+        const eight = gameHourForecast(hourly, dateKey, 8);
         const gameWindow = [seven, eight].filter(Boolean);
         if (!gameWindow.length) return "rain or shine";
 
@@ -566,22 +558,26 @@
         }
       }
 
-      async function updateWeatherLine() {
+      async function updateWeatherLine(nextGame, gameState, fallbackWeatherLine, revision) {
+        // A late response for the previous game must not overwrite the current headline.
+        const show = (text) => {
+          if (revision === gameRevision) setWeatherLine(text);
+        };
         const specialGame = specialGames[nextGame.dateKey];
         if (specialGame !== undefined) {
-          setWeatherLine(specialGame ? `special ${specialGame} game!` : "special game!");
+          show(specialGame ? `special ${specialGame} game!` : "special game!");
           return;
         }
 
         const message = await activeWeatherMessage();
 
         if (message) {
-          setWeatherLine(message);
+          show(message);
           return;
         }
 
         if (gameState.isDuringGame) {
-          setWeatherLine(fallbackWeatherLine);
+          show(fallbackWeatherLine);
           return;
         }
 
@@ -599,13 +595,37 @@
           const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
           if (!response.ok) throw new Error("Forecast unavailable");
           const forecast = await response.json();
-          setWeatherLine(chooseWeatherLine(forecast.hourly));
+          show(chooseWeatherLine(forecast.hourly, nextGame.dateKey));
         } catch {
-          setWeatherLine(fallbackWeatherLine);
+          show(fallbackWeatherLine);
         }
       }
 
-      updateWeatherLine();
+      function refreshGame(now = new Date()) {
+        const gameState = currentGameState(now);
+        const nextGame = nextGameDate(now);
+        const key = `${nextGame.dateKey}:${gameState.isDuringGame}`;
+        if (key === renderedGame) return;
+        renderedGame = key;
+        const revision = ++gameRevision;
+        const fallbackWeatherLine = gameState.isDuringGame ? "AND IT'S GREAT" : "rain or shine";
+        document.getElementById("nextGame").textContent = gameState.isDuringGame
+          ? "WE'RE PLAYING RIGHT NOW"
+          : nextGame.label;
+        setWeatherLine(fallbackWeatherLine);
+        void updateWeatherLine(nextGame, gameState, fallbackWeatherLine, revision);
+      }
+
+      function refreshAtMinuteBoundary() {
+        refreshGame();
+        window.setTimeout(refreshAtMinuteBoundary, 60000 - (Date.now() % 60000));
+      }
+
+      refreshAtMinuteBoundary();
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") refreshGame();
+      });
+      window.addEventListener("pageshow", () => refreshGame());
 
       const appleMapsUrl = "https://maps.apple.com/?ll=37.423093,-122.143545&q=Morning%20Ultimate%20Palo%20Alto";
       const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=37.423093%2C-122.143545";

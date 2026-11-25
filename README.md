@@ -56,3 +56,7 @@ When asked to update this message:
 4. Run `node --check scripts/set-weather-message.mjs`.
 5. If the user asks for it to be live, commit and push the change to the branch that GitHub Pages deploys from, currently `main`.
 6. Do not change `index.html` for normal message updates.
+
+## Holiday and Special Games
+
+Add one-off games to `specialGames` in `index.html`, mapping the Pacific date (`YYYY-MM-DD`) to the holiday or occasion name. These dates join the regular schedule at the usual time and field. When a special game is next, the weather line reads `special Thanksgiving game!` (using that game's name), including during play. Use an empty name for `special game!`. Normal weather messaging resumes for the next regular game.

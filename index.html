@@ -389,7 +389,8 @@
 
     <script>
       const gameDays = [1, 3, 5];
-      const extraGameDates = ["2026-11-26"]; // Thanksgiving pickup, usual time and field.
+      const specialGames = { "2026-11-26": "Thanksgiving" };
+      const extraGameDates = Object.keys(specialGames); // Usual time and field.
       const formatter = new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         month: "long",
@@ -566,6 +567,12 @@
       }
 
       async function updateWeatherLine() {
+        const specialGame = specialGames[nextGame.dateKey];
+        if (specialGame !== undefined) {
+          setWeatherLine(specialGame ? `special ${specialGame} game!` : "special game!");
+          return;
+        }
+
         const message = await activeWeatherMessage();
 
         if (message) {
